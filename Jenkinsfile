@@ -11,12 +11,12 @@ pipeline {
                 success {
                     emailext subject: "Build Status - Success",
                             body: "The build was successful",
-                            to: "your-email@example.com"
+                            to: "minunsunil@gmail.com"
                 }
                 failure {
                     emailext subject: "Build Status - Failure",
                             body: "The build has failed",
-                            to: "your-email@example.com"
+                            to: "minunsunil@gmail.com"
                 }
             }
         }
@@ -30,12 +30,12 @@ pipeline {
                 success {
                     emailext subject: "Test Status - Success",
                             body: "All tests passed successfully",
-                            to: "your-email@example.com"
+                            to: "minunsunil@gmail.com"
                 }
                 failure {
                     emailext subject: "Test Status - Failure",
                             body: "Tests have failed",
-                            to: "your-email@example.com"
+                            to: "minunsunil@gmail.com"
                 }
             }
         }
@@ -49,12 +49,12 @@ pipeline {
                 success {
                     emailext subject: "Code Analysis Status - Success",
                             body: "Code analysis passed",
-                            to: "your-email@example.com"
+                            to: "minunsunil@gmail.com"
                 }
                 failure {
                     emailext subject: "Code Analysis Status - Failure",
                             body: "Code analysis failed",
-                            to: "your-email@example.com"
+                            to: "minunsunil@gmail.com"
                 }
             }
         }
@@ -68,12 +68,12 @@ pipeline {
                 success {
                     emailext subject: "Security Scan Status - Success",
                             body: "Security scan passed",
-                            to: "your-email@example.com"
+                            to: "minunsunil@gmail.com"
                 }
                 failure {
                     emailext subject: "Security Scan Status - Failure",
                             body: "Security scan failed",
-                            to: "your-email@example.com"
+                            to: "minunsunil@gmail.com"
                 }
             }
         }
@@ -94,12 +94,12 @@ pipeline {
                 success {
                     emailext subject: "Staging Test Status - Success",
                             body: "Staging integration tests passed",
-                            to: "your-email@example.com"
+                            to: "minunsunil@gmail.com"
                 }
                 failure {
                     emailext subject: "Staging Test Status - Failure",
                             body: "Staging integration tests failed",
-                            to: "your-email@example.com"
+                            to: "minunsunil@gmail.com"
                 }
             }
         }
