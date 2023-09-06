@@ -1,115 +1,21 @@
-pipeline {
-    agent any
-    stages {
-        stage("Build") {
-            steps {
-                echo "Building..."
-                // Use a build automation tool like Maven
-                // For example: sh 'mvn clean package'
-            }
-            post {
-                success {
-                    emailext subject: "Build Status - Success",
-                            body: "The build was successful",
-                            to: "minunsunil@gmail.com"
-                }
-                failure {
-                    emailext subject: "Build Status - Failure",
-                            body: "The build has failed",
-                            to: "minunsunil@gmail.com"
-                }
-            }
-        }
-        
-        stage("Unit and Integration Tests") {
-            steps {
-                echo "Running unit and integration tests..."
-                // Use test automation tools like JUnit and Selenium
-            }
-            post {
-                success {
-                    emailext subject: "Test Status - Success",
-                            body: "All tests passed successfully",
-                            to: "minunsunil@gmail.com"
-                }
-                failure {
-                    emailext subject: "Test Status - Failure",
-                            body: "Tests have failed",
-                            to: "minunsunil@gmail.com"
-                }
-            }
-        }
-        
-        stage("Code Analysis") {
-            steps {
-                echo "Performing code analysis..."
-                // Integrate a code analysis tool like SonarQube or Checkmarx
-            }
-            post {
-                success {
-                    emailext subject: "Code Analysis Status - Success",
-                            body: "Code analysis passed",
-                            to: "minunsunil@gmail.com"
-                }
-                failure {
-                    emailext subject: "Code Analysis Status - Failure",
-                            body: "Code analysis failed",
-                            to: "minunsunil@gmail.com"
-                }
-            }
-        }
-        
-        stage("Security Scan") {
-            steps {
-                echo "Performing security scan..."
-                // Integrate a security scanning tool like OWASP ZAP or Nessus
-            }
-            post {
-                success {
-                    emailext subject: "Security Scan Status - Success",
-                            body: "Security scan passed",
-                            to: "minunsunil@gmail.com"
-                }
-                failure {
-                    emailext subject: "Security Scan Status - Failure",
-                            body: "Security scan failed",
-                            to: "minunsunil@gmail.com"
-                }
-            }
-        }
-        
-        stage("Deploy to Staging") {
-            steps {
-                echo "Deploying to staging server..."
-                // Use deployment tools like Ansible or AWS CLI to deploy to staging
-            }
-        }
-        
-        stage("Integration Tests on Staging") {
-            steps {
-                echo "Running integration tests on staging..."
-                // Run integration tests on the staging environment
-            }
-            post {
-                success {
-                    emailext subject: "Staging Test Status - Success",
-                            body: "Staging integration tests passed",
-                            to: "minunsunil@gmail.com"
-                }
-                failure {
-                    emailext subject: "Staging Test Status - Failure",
-                            body: "Staging integration tests failed",
-                            to: "minunsunil@gmail.com"
-                }
-            }
-        }
-        
-        stage("Deploy to Production") {
-            steps {
-                echo "Deploying to production server..."
-                // Use deployment tools like Ansible or AWS CLI to deploy to production
+stage("Security Scan") {
+    steps {
+        echo "Performing security scan..."
+        // Integrate a security scanning tool like OWASP ZAP or Nessus
+    }
+    post {
+        always { // This will run whether the stage succeeds or fails
+            script {
+                def subject = currentBuild.resultIsBetterOrEqualTo('SUCCESS') ? "Security Scan Status - Success" : "Security Scan Status - Failure"
+                def body = currentBuild.resultIsBetterOrEqualTo('SUCCESS') ? "Security scan passed" : "Security scan failed"
+                def logFileName = "${currentBuild.resultIsBetterOrEqualTo('SUCCESS') ? 'success' : 'failure'}_security_scan_logs.txt"
+
+                emailext subject: subject,
+                        body: body,
+                        to: "minunsunil@gmail.com",
+                        attachLog: true,
+                        attachmentsPattern: "logs/$logFileName"
             }
         }
     }
 }
-
