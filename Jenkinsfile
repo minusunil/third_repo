@@ -21,6 +21,22 @@ pipeline {
                 // Run unit tests and integration tests using tools like JUnit
                 echo 'Running unit tests and integration tests'
             }
+            post {
+                failure {
+                    // Send a failure notification email with logs as attachments
+                    emailext subject: 'Unit and Integration Tests Failed',
+                        body: 'Unit and integration tests have failed. Please check the logs for details.',
+                        attachLog: true,
+                        to: 'minunsunil@gmail.com'
+                }
+                success {
+                    // Send a success notification email with logs as attachments
+                    emailext subject: 'Unit and Integration Tests Succeeded',
+                        body: 'Unit and integration tests have succeeded.',
+                        attachLog: true,
+                        to: 'minunsunil@gmail.com'
+                }
+            }
         }
         
         stage('Code Analysis') {
@@ -35,15 +51,31 @@ pipeline {
                 // Perform a security scan using a tool like OWASP ZAP
                 echo 'Performing security scan with OWASP ZAP'
             }
+            post {
+                failure {
+                    // Send a failure notification email with logs as attachments
+                    emailext subject: 'Security Scan Failed',
+                        body: 'Security scan has failed. Please check the logs for details.',
+                        attachLog: true,
+                        to: 'minunsunil@gmail.com'
+                }
+                success {
+                    // Send a success notification email with logs as attachments
+                    emailext subject: 'Security Scan Succeeded',
+                        body: 'Security scan has succeeded.',
+                        attachLog: true,
+                        to: 'minunsunil@gmail.com'
+                }
+            }
         }
-        
+
         stage('Deploy to Staging') {
             steps {
                 // Deploy the application to a staging server (e.g., AWS EC2 instance)
                 echo 'Deploying to staging server'
             }
         }
-        
+
         stage('Integration Tests on Staging') {
             steps {
                 // Run integration tests on the staging environment
@@ -56,23 +88,6 @@ pipeline {
                 // Deploy the application to a production server (e.g., AWS EC2 instance)
                 echo 'Deploying to production server'
             }
-        }
-    }
-    
-    post {
-        failure {
-            // Send a failure notification email with logs as attachments
-            emailext subject: 'Pipeline Failed',
-                body: 'The Jenkins pipeline has failed. Please check the logs for details.',
-                attachLog: true,
-                to: 'minunsunil@gmail.com'
-        }
-        success {
-            // Send a success notification email with logs as attachments
-            emailext subject: 'Pipeline Succeeded',
-                body: 'The Jenkins pipeline has succeeded.',
-                attachLog: true,
-                to: 'minunsunil@gmail.com'
-        }
+        } 
     }
 }
