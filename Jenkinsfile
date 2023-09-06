@@ -89,7 +89,7 @@ pipeline {
                 echo 'Deploying to production server'
             }
         } 
-        post {
+    post {
         failure {
             // Send a failure notification email with logs as attachments
             emailext subject: 'Pipeline Failed',
