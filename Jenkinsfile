@@ -105,5 +105,4 @@ pipeline {
                 to: 'minunsunil@gmail.com'
         }
       }
-    }
 }
