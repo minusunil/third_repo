@@ -88,7 +88,8 @@ pipeline {
                 // Deploy the application to a production server (e.g., AWS EC2 instance)
                 echo 'Deploying to production server'
             }
-        } 
+        }
+    }     
     post {
         failure {
             // Send a failure notification email with logs as attachments
@@ -104,5 +105,5 @@ pipeline {
                 attachLog: true,
                 to: 'minunsunil@gmail.com'
         }
-      }
+    }
 }
