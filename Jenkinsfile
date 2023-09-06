@@ -1,26 +1,78 @@
 pipeline {
-agent any
-stages {
-stage("Security Scan") {
-    steps {
-        echo "Performing security scan..."
-        // Integrate a security scanning tool like OWASP ZAP or Nessus
-    }
-    post {
-        always { // This will run whether the stage succeeds or fails
-            script {
-                def subject = currentBuild.resultIsBetterOrEqualTo('SUCCESS') ? "Security Scan Status - Success" : "Security Scan Status - Failure"
-                def body = currentBuild.resultIsBetterOrEqualTo('SUCCESS') ? "Security scan passed" : "Security scan failed"
-                def logFileName = "${currentBuild.resultIsBetterOrEqualTo('SUCCESS') ? 'success' : 'failure'}_security_scan_logs.txt"
-
-                emailext subject: subject,
-                        body: body,
-                        to: "minunsunil@gmail.com",
-                        attachLog: true,
-                        attachmentsPattern: "logs/$logFileName"
+    agent any
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout your source code from the GitHub repository
+                checkout scm
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                // Build the code using a build automation tool like Maven
+                echo 'Build stage using Maven'
+            }
+        }
+        
+        stage('Unit and Integration Tests') {
+            steps {
+                // Run unit tests and integration tests using tools like JUnit
+                echo 'Running unit tests and integration tests'
+            }
+        }
+        
+        stage('Code Analysis') {
+            steps {
+                // Integrate a code analysis tool like SonarQube
+                echo 'Performing code analysis with SonarQube'
+            }
+        }
+        
+        stage('Security Scan') {
+            steps {
+                // Perform a security scan using a tool like OWASP ZAP
+                echo 'Performing security scan with OWASP ZAP'
+            }
+        }
+        
+        stage('Deploy to Staging') {
+            steps {
+                // Deploy the application to a staging server (e.g., AWS EC2 instance)
+                echo 'Deploying to staging server'
+            }
+        }
+        
+        stage('Integration Tests on Staging') {
+            steps {
+                // Run integration tests on the staging environment
+                echo 'Running integration tests on staging'
+            }
+        }
+        
+        stage('Deploy to Production') {
+            steps {
+                // Deploy the application to a production server (e.g., AWS EC2 instance)
+                echo 'Deploying to production server'
             }
         }
     }
-}
-}
+    
+    post {
+        failure {
+            // Send a failure notification email with logs as attachments
+            emailext subject: 'Pipeline Failed',
+                body: 'The Jenkins pipeline has failed. Please check the logs for details.',
+                attachLog: true,
+                to: 'minunsunil@gmail.com'
+        }
+        success {
+            // Send a success notification email with logs as attachments
+            emailext subject: 'Pipeline Succeeded',
+                body: 'The Jenkins pipeline has succeeded.',
+                attachLog: true,
+                to: 'minunsunil@gmail.com'
+        }
+    }
 }
