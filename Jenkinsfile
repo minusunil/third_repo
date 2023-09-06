@@ -89,5 +89,21 @@ pipeline {
                 echo 'Deploying to production server'
             }
         } 
+        post {
+        failure {
+            // Send a failure notification email with logs as attachments
+            emailext subject: 'Pipeline Failed',
+                body: 'The Jenkins pipeline has failed. Please check the logs for details.',
+                attachLog: true,
+                to: 'minunsunil@gmail.com'
+        }
+        success {
+            // Send a success notification email with logs as attachments
+            emailext subject: 'Pipeline Succeeded',
+                body: 'The Jenkins pipeline has succeeded.',
+                attachLog: true,
+                to: 'minunsunil@gmail.com'
+        }
+      }
     }
 }
