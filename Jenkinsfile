@@ -1,3 +1,6 @@
+pipeline {
+agent any
+stages {
 stage("Security Scan") {
     steps {
         echo "Performing security scan..."
@@ -18,4 +21,6 @@ stage("Security Scan") {
             }
         }
     }
+}
+}
 }
